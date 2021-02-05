@@ -10,7 +10,7 @@ import java.util.*;
  */
 
 // General BFS
-// TLE
+// TLE For TEST CASE 12
 
 public class MessageRoute {
     public static void main(String[] args) throws IOException {
@@ -35,8 +35,6 @@ public class MessageRoute {
 
         Map<Integer, Integer> parents = new HashMap<>();
         Deque<Integer> queue = new ArrayDeque<>();
-        Set<Integer> visited = new HashSet<>();
-        visited.add(1);
         queue.offer(1);
         parents.put(1, -1);
 
@@ -46,8 +44,7 @@ public class MessageRoute {
                 break;
             }
             for (int neighbour : graph.get(current)) {
-                if (!visited.contains(neighbour)) {
-                    visited.add(neighbour);
+                if (!parents.containsKey(neighbour)) {
                     parents.put(neighbour, current);
                     queue.offer(neighbour);
                 }
@@ -59,14 +56,13 @@ public class MessageRoute {
             return;
         }
 
-        StringBuilder result = new StringBuilder();
+        List<Integer> result = new ArrayList<>();
         int k = 0;
         while (n != -1) {
-            result.insert(0, n).insert(0, " ");
+            result.add(0, n);
             n = parents.get(n);
             k++;
         }
-        result.deleteCharAt(0);
         System.out.println(k);
         System.out.println(result.toString());
     }
