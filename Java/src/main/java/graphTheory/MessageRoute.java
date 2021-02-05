@@ -11,20 +11,6 @@ import java.util.*;
 
 // General BFS
 // TLE
-class Vertex {
-    int value;
-    Set<Integer> path;
-
-    public Vertex(int value) {
-        this.value = value;
-        this.path = new HashSet<>();
-        addVertexToPath(value);
-    }
-
-    public void addVertexToPath(int value) {
-        this.path.add(value);
-    }
-}
 
 public class MessageRoute {
     public static void main(String[] args) throws IOException {
@@ -47,37 +33,42 @@ public class MessageRoute {
             graph.get(y).add(x);
         }
 
-        Deque<Vertex> queue = new ArrayDeque<>();
+        Map<Integer, Integer> parents = new HashMap<>();
+        Deque<Integer> queue = new ArrayDeque<>();
         Set<Integer> visited = new HashSet<>();
         visited.add(1);
-        queue.offer(new Vertex(1));
+        queue.offer(1);
+        parents.put(1, -1);
 
         while (!queue.isEmpty()) {
-            Vertex current = queue.poll();
-            if (current.value == n) {
-                printResult(current.path);
-                return;
+            int current = queue.poll();
+            if (current == n) {
+                break;
             }
-            for (int neighbour : graph.get(current.value)) {
+            for (int neighbour : graph.get(current)) {
                 if (!visited.contains(neighbour)) {
-                    Vertex newVertex = new Vertex(neighbour);
-                    newVertex.path.addAll(current.path);
-
                     visited.add(neighbour);
-                    queue.offer(newVertex);
+                    parents.put(neighbour, current);
+                    queue.offer(neighbour);
                 }
             }
         }
 
-        System.out.println("IMPOSSIBLE");
-    }
-
-    public static void printResult(Set<Integer> path) {
-        System.out.println(path.size());
-        StringBuilder result = new StringBuilder();
-        for (int i : path) {
-            result.append(i).append(" ");
+        if (parents.get(n) == null) {
+            System.out.println("IMPOSSIBLE");
+            return;
         }
+
+        StringBuilder result = new StringBuilder();
+        int k = 0;
+        while (n != -1) {
+            result.insert(0, n).insert(0, " ");
+            n = parents.get(n);
+            k++;
+        }
+        result.deleteCharAt(0);
+        System.out.println(k);
         System.out.println(result.toString());
     }
+
 }
