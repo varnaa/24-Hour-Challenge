@@ -13,10 +13,10 @@ public class DecodeWays {
         int[] dpTable = new int[length + 1];
 
         // base case
-        dpTable[0] = 0; // empty string
+        dpTable[0] = 1; // empty string
         dpTable[1] = s.charAt(0) != '0' ? 1 : 0;
 
-        for (int i = 2; i < length; i++) {
+        for (int i = 2; i < dpTable.length; i++) {
             if (s.charAt(i - 1) != '0') {
                 dpTable[i] += dpTable[i - 1];
             }
