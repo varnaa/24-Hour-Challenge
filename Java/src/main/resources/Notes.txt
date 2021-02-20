@@ -1,7 +1,5 @@
 SHORTEST PATH ALGORITHM - (SINGLE SOURCE SHORTEST PATH ALGORITHM)
 
 TODO:
-1. Bipartite Graph
-2. Possible Bi-Partition
 3. Critical Connection
 4. Minimum Spanning Tree
